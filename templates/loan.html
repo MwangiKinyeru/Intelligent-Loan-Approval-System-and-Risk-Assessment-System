@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PrimeTrust Loan Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- setting ui styles -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 1200px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      background: linear-gradient(to right, #4f46e5, #7c3aed);
+      color: white;
+      padding: 25px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo i {
+      font-size: 2.5rem;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    
+    .subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .content {
+      display: flex;
+      min-height: 700px;
+    }
+    
+    .form-section {
+      flex: 1;
+      padding: 40px;
+      border-right: 1px solid #e5e7eb;
+    }
+    
+    .result-section {
+      flex: 1;
+      padding: 40px;
+      background: #f8fafc;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      color: #1f2937;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title i {
+      color: #4f46e5;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #4b5563;
+      font-weight: 500;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+    
+    .submit-btn {
+      background: linear-gradient(to right, #4f46e5, #7c3aed);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      margin-top: 10px;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+    }
+    
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    
+    .status {
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .status.approved {
+      background: #d1fae5;
+      color: #065f46;
+      border: 2px solid #10b981;
+    }
+    
+    .status.rejected {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 2px solid #ef4444;
+    }
+    
+    .status i {
+      font-size: 2rem;
+    }
+    
+    .result-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+    }
+    
+    .result-card h3 {
+      color: #4f46e5;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+    }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .info-item span:first-child {
+      color: #6b7280;
+    }
+    
+    .info-item span:last-child {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    
+    .amount-display {
+      text-align: center;
+      padding: 30px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 15px;
+      color: white;
+      margin-bottom: 25px;
+    }
+    
+    .amount-label {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+    
+    .amount-value {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+    
+    .loan-controls {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .slider-container {
+      margin-bottom: 25px;
+    }
+    
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .slider-value {
+      color: #4f46e5;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    
+    input[type="range"] {
+      width: 100%;
+      height: 8px;
+      -webkit-appearance: none;
+      background: #e5e7eb;
+      border-radius: 4px;
+      outline: none;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      background: #4f46e5;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .tenure-options {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .tenure-btn {
+      flex: 1;
+      padding: 12px;
+      background: #f3f4f6;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-align: center;
+    }
+    
+    .tenure-btn.active {
+      background: #4f46e5;
+      color: white;
+      border-color: #4f46e5;
+    }
+    
+    .emi-display {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      margin-top: 25px;
+    }
+    
+    .emi-label {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+    
+    .emi-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s;
+    }
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .notification.success {
+      background: #10b981;
+    }
+    
+    .notification.error {
+      background: #ef4444;
+    }
+    
+    .notification.info {
+      background: #3b82f6;
+    }
+    
+    /* styles for email format */
+    .success-message {
+      background: #d1fae5;
+      color: #065f46;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      border-left: 4px solid #10b981;
+    }
+    
+    .email-format {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-top: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+    }
+    
+    .email-header { 
+      color: #1e293b; 
+      font-size: 20px; 
+      margin-bottom: 20px; 
+      padding-bottom: 15px; 
+      border-bottom: 1px solid #e2e8f0; 
+    }
+    
+    .email-body { 
+      color: #475569; 
+      margin-bottom: 25px; 
+    }
+    
+    .loan-details-grid {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    
+    .loan-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .loan-detail-row:last-child { 
+      border-bottom: none; 
+    }
+    
+    .loan-detail-label { 
+      color: #64748b; 
+      font-weight: 500; 
+    }
+    
+    .loan-detail-value { 
+      color: #0f172a; 
+      font-weight: 600; 
+    }
+    
+    .email-footer { 
+      color: #475569; 
+      margin-top: 25px; 
+      padding-top: 20px; 
+      border-top: 1px solid #e2e8f0; 
+    }
+    
+    .signature { 
+      color: #1e293b; 
+      font-weight: 600; 
+      margin-top: 15px; 
+    }
+    
+    .loan-amount-info {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #0369a1;
+    }
+    
+    .loan-amount-info i { 
+      margin-right: 8px; 
+      color: #0ea5e9; 
+    }
+    
+    .warning {
+      color: #dc2626;
+      font-size: 13px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+      }
+      
+      .form-section {
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">
+      <i class="fas fa-university"></i>
+      <div>
+        <h1>PrimeTrust Loan Dashboard</h1>
+        <div class="subtitle">Intelligent Loan Approval System</div>
+      </div>
+    </div>
+    <div class="header-info">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-shield-alt"></i>
+        <span>Secure & Encrypted</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="content">
+    <!-- form section -->
+    <div class="form-section">
+      <div class="section-title">
+        <i class="fas fa-user-edit"></i>
+        Applicant Information
+      </div>
+      
+      <form id="loanForm">
+        <div class="form-group">
+          <label for="application_date"><i class="far fa-calendar-alt"></i> Application Date</label>
+          <input type="date" id="application_date">
+        </div>
+        
+        <div class="form-group">
+          <label for="name"><i class="fas fa-user"></i> Full Name</label>
+          <input type="text" id="name" placeholder="Enter your full name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+          <input type="email" id="email" placeholder="you@example.com" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="age"><i class="fas fa-birthday-cake"></i> Age</label>
+          <input type="number" id="age" min="18" max="100" placeholder="Enter your age" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="gender"><i class="fas fa-venus-mars"></i> Gender</label>
+          <select id="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="credit_score"><i class="fas fa-credit-card"></i> Credit Score (300-850)</label>
+          <input type="number" id="credit_score" min="300" max="850" placeholder="300-850" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="credit_history_length"><i class="fas fa-history"></i> Credit History Length (years)</label>
+          <input type="number" id="credit_history_length" placeholder="Number of years" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="income"><i class="fas fa-money-bill-wave"></i> Annual Income (KES)</label>
+          <input type="number" id="income" placeholder="Annual income in KES" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="dti_ratio"><i class="fas fa-percentage"></i> DTI Ratio (0–1)</label>
+          <input type="number" step="0.01" id="dti_ratio" placeholder="0.00 to 1.00" min="0" max="1" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="default_history"><i class="fas fa-exclamation-triangle"></i> Default History</label>
+          <select id="default_history" required>
+            <option value="0">No defaults</option>
+            <option value="1">Has defaults</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="home_ownership"><i class="fas fa-home"></i> Home Ownership</label>
+          <select id="home_ownership" required>
+            <option value="RENT">Rent</option>
+            <option value="OWN/OTHER">Own / Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="loan_purpose"><i class="fas fa-bullseye"></i> Loan Purpose</label>
+          <select id="loan_purpose" required>
+            <option value="PERSONAL">Personal</option>
+            <option value="EDUCATION">Education</option>
+            <option value="MEDICAL">Medical</option>
+            <option value="HOMEIMPROVEMENT">Home Improvement</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-shield-alt"></i> Check Eligibility
+        </button>
+      </form>
+
+      <!-- how loans Will appear after approval) -->
+      <div id="loanControls" class="hidden">
+        <div class="success-message">
+          <i class="fas fa-check-circle"></i>
+          <div>You're pre-approved! Enter your desired loan amount to see the optimal repayment plan.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="requested_amount"><i class="fas fa-hand-holding-usd"></i> Desired Loan Amount (KES)</label>
+          <input type="number" id="requested_amount" placeholder="Enter desired amount">
+          
+          <div id="availableAmountInfo" class="loan-amount-info hidden">
+            <i class="fas fa-info-circle"></i>
+            <span id="availableAmountText">Available loan amount: KES 0</span>
+          </div>
+
+          <div id="amountWarning" class="warning hidden">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="warningText"></span>
+          </div>
+          <button type="button" id="processLoanBtn" class="submit-btn" style="margin-top: 20px;" disabled>
+            <i class="fas fa-file-contract"></i> Process Loan & Save to Google Sheets
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Results sections -->
+    <div class="result-section">
+      <div class="section-title">
+        <i class="fas fa-chart-bar"></i>
+        Loan Analysis & Results
+      </div>
+      
+      <div id="statusCard" class="hidden">
+        <div id="statusText" class="status">
+          <i class="fas fa-clock"></i> Awaiting submission
+        </div>
+        
+        <div id="probability" class="result-card hidden">
+          <h3><i class="fas fa-chart-pie"></i> Approval Probability</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span>Probability</span>
+              <span id="probabilityScore">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="resultCard" class="hidden">
+        <div class="amount-display">
+          <div class="amount-label">Maximum Loan Amount Approved</div>
+          <div class="amount-value" id="maxAmount">KES 0</div>
+        </div>
+        
+        <div class="result-card">
+          <h3><i class="fas fa-info-circle"></i> Loan Details</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span>Interest Rate</span>
+              <span id="interestRate">-</span>
+            </div>
+            <div class="info-item">
+              <span>Loan Type</span>
+              <span id="loanType">-</span>
+            </div>
+            <div class="info-item">
+              <span>Approval Status</span>
+              <span id="approvalStatus">-</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- setting email formart -->
+        <div id="emailFormat" class="email-format hidden">
+          <div class="email-header">
+            <i class="fas fa-envelope"></i> Loan Approval Summary
+          </div>
+          <div class="email-body">
+            <p>Hi <span id="emailName">[Applicant Name]</span>,</p>
+            <p>We are excited to inform you that your application for a <span id="emailLoanType">[Loan Type]</span> has been approved.</p>
+            <div class="loan-details-grid">
+              <div class="loan-detail-row">
+                <span class="loan-detail-label">Amount:</span>
+                <span class="loan-detail-value" id="emailAmount">KES 0</span>
+              </div>
+              <div class="loan-detail-row">
+                <span class="loan-detail-label">Interest Rate:</span>
+                <span class="loan-detail-value" id="emailInterestRate">0% APR</span>
+              </div>
+              <div class="loan-detail-row">
+                <span class="loan-detail-label">Term:</span>
+                <span class="loan-detail-value" id="emailTerm">0 Months</span>
+              </div>
+              <div class="loan-detail-row">
+                <span class="loan-detail-label">Estimated Monthly Payment:</span>
+                <span class="loan-detail-value" id="emailMonthlyPayment">KES 0</span>
+              </div>
+            </div>
+            <p>Action Required: To finalize your loan and begin disbursal, please sign the agreement in the app/upload your ID by <span id="emailDeadline">[Date]</span>.</p>
+          </div>
+          <div class="email-footer">
+            <p>Regards,</p>
+            <p class="signature">PrimeTrust Bank</p>
+          </div>
+        </div>
+        
+        <!-- EMI Display -->
+        <div id="emiCard" class="emi-display hidden">
+          <div class="emi-label">Monthly EMI</div>
+          <div class="emi-value" id="emiAmount">KES 0</div>
+          <div style="margin-top: 15px; font-size: 0.9rem;">
+            Total Payable: <span id="totalPayable">KES 0</span>
+          </div>
+        </div>
+
+        <!-- Tenure Card -->
+        <div id="tenureCard" class="result-card hidden">
+          <h3><i class="fas fa-calendar-check"></i> Optimal Repayment Plan</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span>Recommended Term</span>
+              <span id="optimalTenure">-</span>
+            </div>
+            <div class="info-item">
+              <span>Monthly EMI</span>
+              <span id="monthlyEmi">-</span>
+            </div>
+            <div class="info-item">
+              <span>Total Interest</span>
+              <span id="totalInterest">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="initialState" class="result-card">
+        <h3><i class="fas fa-lightbulb"></i> How It Works</h3>
+        <p style="color: #6b7280; line-height: 1.6; margin-bottom: 20px;">
+          Our AI-powered system analyzes your financial profile to provide instant loan eligibility results with personalized rates.
+        </p>
+        <div class="info-grid">
+          <div class="info-item">
+            <span><i class="fas fa-bolt" style="color: #4f46e5;"></i> Instant Approval</span>
+            <span>Within Seconds</span>
+          </div>
+          <div class="info-item">
+            <span><i class="fas fa-lock" style="color: #4f46e5;"></i> Data Security</span>
+            <span>256-bit Encrypted</span>
+          </div>
+          <div class="info-item">
+            <span><i class="fas fa-percent" style="color: #4f46e5;"></i> Competitive Rates</span>
+            <span>From 6.5% APR</span>
+          </div>
+          <div class="info-item">
+            <span><i class="fas fa-clock" style="color: #4f46e5;"></i> Quick Disbursal</span>
+            <span>24-48 Hours</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Notification System -->
+<div id="notification" class="notification"></div>
+
+<script>
+
+// Function to show notifications
+function showNotification(message, type = 'info') {
+  const notification = document.getElementById('notification');
+  notification.textContent = message;
+  notification.className = `notification ${type} show`;
+  
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 3000);
+}
+
+let maxLoan = 0;
+let interestRate = 0;
+let loanType = "Personal";
+
+// DOM Elements
+const loanForm = document.getElementById('loanForm');
+const statusCard = document.getElementById('statusCard');
+const statusText = document.getElementById('statusText');
+const probability = document.getElementById('probability');
+const resultCard = document.getElementById('resultCard');
+const initialState = document.getElementById('initialState');
+const loanControls = document.getElementById('loanControls');
+const emiCard = document.getElementById('emiCard');
+const tenureCard = document.getElementById('tenureCard');
+const maxAmountEl = document.getElementById('maxAmount');
+const interestRateEl = document.getElementById('interestRate');
+const loanTypeEl = document.getElementById('loanType');
+const approvalStatusEl = document.getElementById('approvalStatus');
+const emiAmount = document.getElementById('emiAmount');
+const totalPayable = document.getElementById('totalPayable');
+const probabilityScore = document.getElementById('probabilityScore');
+const optimalTenureEl = document.getElementById('optimalTenure');
+const monthlyEmiEl = document.getElementById('monthlyEmi');
+const totalInterestEl = document.getElementById('totalInterest');
+const emailFormat = document.getElementById('emailFormat'); 
+
+// Form elements
+const application_date = document.getElementById('application_date');
+const name = document.getElementById('name');
+const email = document.getElementById('email');
+const age = document.getElementById('age');
+const gender = document.getElementById('gender');
+const income = document.getElementById('income');
+const credit_score = document.getElementById('credit_score');
+const credit_history_length = document.getElementById('credit_history_length');
+const dti_ratio = document.getElementById('dti_ratio');
+const default_history = document.getElementById('default_history');
+const home_ownership = document.getElementById('home_ownership');
+const loan_purpose = document.getElementById('loan_purpose');
+const requested_amount = document.getElementById('requested_amount');
+const availableAmountInfo = document.getElementById('availableAmountInfo');
+const availableAmountText = document.getElementById('availableAmountText');
+const amountWarning = document.getElementById('amountWarning');
+const warningText = document.getElementById('warningText');
+
+// Setted date 5 jan 2926 as default
+document.addEventListener('DOMContentLoaded', function() {
+  const today = new Date().toISOString().split('T')[0];
+  application_date.value = today;
+});
+
+// Event Listeners
+loanForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  checkEligibility();
+});
+
+// Keep the real-time validation 
+requested_amount.addEventListener('input', function() {
+  if (!maxLoan) return;
+
+  const amount = Number(this.value);
+  const processBtn = document.getElementById('processLoanBtn');
+  
+  // Update available amount info
+  if (availableAmountInfo) {
+    availableAmountText.textContent = `Available loan amount: KES ${maxLoan.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+    availableAmountInfo.classList.remove('hidden');
+  }
+
+  // Enable/disable button based on amount
+  if (amount > 0 && amount <= maxLoan) {
+    processBtn.disabled = false;
+    amountWarning.classList.add("hidden");
+    
+    // Hide the email format and EMI cards until button is clicked
+    emailFormat.classList.add("hidden");
+    tenureCard.classList.add('hidden');
+    emiCard.classList.add('hidden');
+    
+  } else if (amount > maxLoan) {
+    warningText.textContent = `Requested amount (KES ${amount.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}) exceeds available loan amount (KES ${maxLoan.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})})`;
+    amountWarning.classList.remove("hidden");
+    processBtn.disabled = true;
+    emailFormat.classList.add("hidden");
+    tenureCard.classList.add('hidden');
+    emiCard.classList.add('hidden');
+  } else {
+    processBtn.disabled = true;
+    amountWarning.classList.add("hidden");
+    emailFormat.classList.add("hidden");
+    tenureCard.classList.add('hidden');
+    emiCard.classList.add('hidden');
+  }
+});
+
+// calculate and display loan details
+function displayLoanDetails(amount) {
+  const incomeVal = Number(income.value);
+  const creditScore = Number(credit_score.value);
+  const loanPurpose = loan_purpose.value;
+  
+  // Calculate and show the full summary
+  const optimalMonths = calculateOptimalTenure(amount, incomeVal, interestRate, creditScore, loanPurpose);
+  const emi = calculateEMI(amount, optimalMonths);
+  const totalInterest = (emi * optimalMonths) - amount;
+  const totalPayableAmount = emi * optimalMonths;
+
+  // Update the email format
+  document.getElementById('emailName').textContent = name.value || '[Applicant Name]';
+  const loanTypeDisplay = getLoanTypeDisplay(loanPurpose);
+  document.getElementById('emailLoanType').textContent = loanTypeDisplay;
+  document.getElementById('emailAmount').textContent = `KES ${amount.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+  document.getElementById('emailInterestRate').textContent = `${interestRate}% APR`;
+  document.getElementById('emailTerm').textContent = `${optimalMonths} Months`;
+  document.getElementById('emailMonthlyPayment').textContent = `KES ${emi.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+  
+  // Set deadline (7 days from now)
+  const deadline = new Date();
+  deadline.setDate(deadline.getDate() + 7);
+  document.getElementById('emailDeadline').textContent = deadline.toLocaleDateString('en-US', { 
+    month:'long', 
+    day:'numeric', 
+    year:'numeric' 
+  });
+  
+  emailFormat.classList.remove("hidden");
+
+  // Update the tenure card
+  tenureCard.classList.remove('hidden');
+  optimalTenureEl.innerHTML = `${optimalMonths} months`;
+  monthlyEmiEl.innerHTML = `KES ${emi.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+  totalInterestEl.innerHTML = `KES ${totalInterest.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+  
+  // Update EMI display
+  emiCard.classList.remove('hidden');
+  emiAmount.textContent = `KES ${emi.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+  totalPayable.textContent = `KES ${totalPayableAmount.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+}
+
+document.getElementById('processLoanBtn').addEventListener('click', function() {
+  const amount = Number(requested_amount.value);
+  if (!amount || amount <= 0 || amount > maxLoan) return;
+  
+  //  Display the loan details 
+  displayLoanDetails(amount);
+  
+  //  Send to Google Sheets 
+  sendFinalLoanToGoogleSheets(amount);
+  
+  // Show success message
+  showNotification("✅ loan successully processed! Details saved to Google Sheets.");
+});
+
+// Send final loan to Google Sheets
+function sendFinalLoanToGoogleSheets(loanAmount) {
+  const payload = {
+    name: name.value,
+    email: email.value,
+    age: Number(age.value),
+    gender: gender.value,
+    credit_score: Number(credit_score.value),
+    credit_history_length: Number(credit_history_length.value),
+    income: Number(income.value),
+    dti_ratio: Number(dti_ratio.value),
+    default_history: Number(default_history.value),
+    home_ownership: home_ownership.value,
+    loan_purpose: loan_purpose.value,
+    requested_loan: loanAmount,  
+    status: "Loan Processed",
+    available_loan_limit: maxLoan,
+    interest_rate: interestRate
+  };
+  
+  // Call new backend endpoint
+  fetch("/process-loan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(response => {
+  })
+  .catch(err => {
+    showNotification("Error saving to Google Sheets", "error");
+  });
+}
+
+// Function to get loan type display text for email 
+function getLoanTypeDisplay(purposeValue) {
+  const loanTypeMap = {
+    'PERSONAL': 'personal loan',
+    'EDUCATION': 'education loan', 
+    'MEDICAL': 'medical loan',
+    'HOMEIMPROVEMENT': 'home improvement loan'
+  };
+  return loanTypeMap[purposeValue] || 'loan';
+}
+
+// Function to calculate optimal tenure
+function calculateOptimalTenure(loanAmount, annualIncome, interestRate, creditScore, loanPurpose) {
+  // 1. Cap loan amount at $35,000 (model maximum)
+  const MAX_LOAN_AMOUNT = 35000;
+  loanAmount = Math.min(loanAmount, MAX_LOAN_AMOUNT);
+  
+  // 2. Calculate affordable monthly payment (30% DTI for all loans)
+  const monthlyIncome = annualIncome / 12;
+  const maxAffordableEMI = monthlyIncome * 0.30;
+  
+  // 3. Monthly interest rate
+  const monthlyRate = interestRate / 12 / 100;
+  
+  // 4. Use your specified loan amount ranges for tenure mapping
+  let optimalMonths;
+  
+  if (loanAmount <= 5000) {
+    // $0 - $5,000 → 6-12 months
+    if (maxAffordableEMI <= loanAmount * monthlyRate) {
+      optimalMonths = 12; 
+    } else {
+      let calculatedMonths = Math.log(maxAffordableEMI / (maxAffordableEMI - (loanAmount * monthlyRate))) / 
+                           Math.log(1 + monthlyRate);
+      optimalMonths = Math.ceil(calculatedMonths);
+      optimalMonths = Math.max(6, Math.min(12, optimalMonths));
+    }
+  } 
+  else if (loanAmount <= 15000) {
+    // $5,001 - $15,000 → 12-36 months
+    if (maxAffordableEMI <= loanAmount * monthlyRate) {
+      optimalMonths = 36; 
+    } else {
+      let calculatedMonths = Math.log(maxAffordableEMI / (maxAffordableEMI - (loanAmount * monthlyRate))) / 
+                           Math.log(1 + monthlyRate);
+      optimalMonths = Math.ceil(calculatedMonths);
+      optimalMonths = Math.max(12, Math.min(36, optimalMonths));
+    }
+  } 
+  else if (loanAmount <= 25000) {
+    // $15,001 - $25,000 → 24-48 months
+    if (maxAffordableEMI <= loanAmount * monthlyRate) {
+      optimalMonths = 48; 
+    } else {
+      let calculatedMonths = Math.log(maxAffordableEMI / (maxAffordableEMI - (loanAmount * monthlyRate))) / 
+                           Math.log(1 + monthlyRate);
+      optimalMonths = Math.ceil(calculatedMonths);
+      optimalMonths = Math.max(24, Math.min(48, optimalMonths));
+    }
+  } 
+  else {
+    // $25,001 - $35,000 → 36-60 months
+    if (maxAffordableEMI <= loanAmount * monthlyRate) {
+      optimalMonths = 60; 
+    } else {
+      let calculatedMonths = Math.log(maxAffordableEMI / (maxAffordableEMI - (loanAmount * monthlyRate))) / 
+                           Math.log(1 + monthlyRate);
+      optimalMonths = Math.ceil(calculatedMonths);
+      optimalMonths = Math.max(36, Math.min(60, optimalMonths));
+    }
+  }
+  
+  // 5. Adjust based on credit score (keep this subtle)
+  let creditAdjustment = 1.0;
+  if (creditScore >= 750) {
+    creditAdjustment = 0.95;  
+  } else if (creditScore < 600) {
+    creditAdjustment = 1.05;  
+  }
+  
+  optimalMonths = Math.round(optimalMonths * creditAdjustment);
+  
+  // 6. Ensure we stay within the range for the loan amount
+  if (loanAmount <= 5000) {
+    optimalMonths = Math.max(6, Math.min(12, optimalMonths));
+  } else if (loanAmount <= 15000) {
+    optimalMonths = Math.max(12, Math.min(36, optimalMonths));
+  } else if (loanAmount <= 25000) {
+    optimalMonths = Math.max(24, Math.min(48, optimalMonths));
+  } else {
+    optimalMonths = Math.max(36, Math.min(60, optimalMonths));
+  }
+  
+  // 7. Make it a banking-standard multiple (3 or 6 months)
+  if (optimalMonths <= 18) {
+    optimalMonths = Math.ceil(optimalMonths / 3) * 3; 
+  } else {
+    optimalMonths = Math.ceil(optimalMonths / 6) * 6; 
+  }
+  
+  return optimalMonths;
+}
+
+// EMI calculation function 
+function calculateEMI(amount, months) {
+  if (!amount || !months || !interestRate || amount <= 0 || months <= 0) return 0;
+  
+  const monthlyRate = interestRate / 12 / 100;
+  
+  // Standard EMI formula
+  const numerator = amount * monthlyRate * Math.pow(1 + monthlyRate, months);
+  const denominator = Math.pow(1 + monthlyRate, months) - 1;
+  const emi = numerator / denominator;
+  
+  // Round to 2 decimal places
+  return Math.round(emi * 100) / 100;
+}
+
+// Check Eligibility Function 
+function checkEligibility() {
+  const payload = {
+    name: name.value || '',
+    email: email.value || '',
+    age: Number(age.value) || 0,
+    gender: gender.value || '',
+    credit_score: Number(credit_score.value),
+    credit_history_length: Number(credit_history_length.value),
+    income: Number(income.value),
+    dti_ratio: Number(dti_ratio.value),
+    default_history: Number(default_history.value),
+    home_ownership: home_ownership.value,
+    loan_purpose: loan_purpose.value
+  };
+
+  const button = loanForm.querySelector('button');
+  const originalText = button.innerHTML;
+  button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+  button.disabled = true;
+
+  // Show loading state
+  statusCard.classList.remove('hidden');
+  statusText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing your application...';
+  statusText.className = "status";
+  
+  // Hide initial state
+  initialState.classList.add('hidden');
+  resultCard.classList.add('hidden');
+  loanControls.classList.add('hidden');
+  emailFormat.classList.add('hidden');
+
+  // Call your ML endpoint
+  fetch("/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    processResponse({
+      approved: data.approved,
+      approval_probability: (data.approval_probability * 100).toFixed(2) + "%",
+      interest_rate: data.interest_rate,
+      loan_amount: data.loan_amount
+    });
+  })
+  .catch(err => {
+    showNotification("Server error. Please try again.", "error");
+    statusText.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error processing application';
+    statusText.className = "status rejected";
+  })
+  .finally(() => {
+    button.innerHTML = originalText;
+    button.disabled = false;
+  });
+}
+
+// Process Response Function 
+function processResponse(data) {
+  probabilityScore.textContent = data.approval_probability;
+  
+  /* Rejected*/
+  if (!data.approved) {
+    statusText.innerHTML = '<i class="fas fa-times-circle"></i> Application Rejected';
+    statusText.className = "status rejected";
+    probability.classList.remove("hidden");
+
+    loanControls.classList.add("hidden");
+    tenureCard.classList.add("hidden");
+    emiCard.classList.add("hidden");
+    emailFormat.classList.add("hidden");
+    
+    // Update result card
+    resultCard.classList.remove("hidden");
+    approvalStatusEl.innerHTML = "Rejected";
+    maxAmountEl.textContent = "KES 0";
+    interestRateEl.textContent = "-";
+    loanTypeEl.textContent = loan_purpose.options[loan_purpose.selectedIndex].text;
+    
+    // Show notification (backend already sent to Google Sheets)
+    showNotification("Application reviewed. Results logged.", "info");
+    
+    return;
+  }
+
+  /* Approved */
+  statusText.innerHTML = '<i class="fas fa-check-circle"></i> Application Approved';
+  statusText.className = "status approved";
+  probability.classList.remove("hidden");
+  
+  // Update loan details
+  interestRate = data.interest_rate;
+  maxLoan = data.loan_amount;
+  
+  // Update UI
+  maxAmountEl.textContent = 'KES ' + maxLoan.toLocaleString();
+  interestRateEl.textContent = interestRate.toFixed(1) + '% p.a';
+  loanTypeEl.textContent = loan_purpose.options[loan_purpose.selectedIndex].text;
+  approvalStatusEl.innerHTML = "Approved";
+  
+  // Update available amount info
+  availableAmountText.textContent = `Available loan amount: KES ${maxLoan.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+  availableAmountInfo.classList.remove('hidden');
+  
+  // Show result sections
+  resultCard.classList.remove("hidden");
+  loanControls.classList.remove("hidden");
+  
+  // Show notification
+  showNotification("Application approved! Results logged to system.", "success");
+}
+</script>
+</body>
+</html>

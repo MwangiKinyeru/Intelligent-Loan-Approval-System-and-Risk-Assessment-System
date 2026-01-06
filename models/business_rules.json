@@ -1,0 +1,17 @@
+{
+  "classification_threshold": 0.6,
+  "cluster_names": {
+    "0": "Emerging",
+    "1": "Prime",
+    "2": "Stable",
+    "3": "Vulnerable"
+  },
+  "base_premiums": {
+    "Prime": 0.5,
+    "Stable": 1.0,
+    "Emerging": 1.5,
+    "Vulnerable": 3.0
+  },
+  "margin": 0.5,
+  "premium_adjustment_scale": 0.2
+}

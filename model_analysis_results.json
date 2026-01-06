@@ -1,0 +1,18 @@
+{
+  "kesonic_features": [
+    "credit_score",
+    "credit_history_length",
+    "income",
+    "dti_ratio",
+    "default_history",
+    "loan_amount",
+    "home_ownership_OWN/OTHER",
+    "home_ownership_RENT",
+    "loan_purpose_EDUCATION",
+    "loan_purpose_HOMEIMPROVEMENT",
+    "loan_purpose_MEDICAL",
+    "loan_purpose_PERSONAL",
+    "loan_purpose_VENTURE"
+  ],
+  "categorical_options": {
+    "homeownership": 
