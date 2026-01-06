@@ -45,4 +45,4 @@ This approach reflects real-world lending workflows used by digital banks.
 ## Deployment
 
 The Intelligent-Loan-Approval-System-and-Risk-Assessment-System was Deployed via render as a web application. To access the the finance bot click the link below
->>> [Deployment Link](https://customer-segmentation-g0b9.onrender.com)
+>>> [Deployment Link](https://intelligent-loan-approval-system-and.onrender.com)
