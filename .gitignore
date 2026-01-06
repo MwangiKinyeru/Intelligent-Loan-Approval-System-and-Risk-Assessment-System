@@ -207,3 +207,5 @@ marimo/_lsp/
 __marimo__/
 models/rf_classifier.pkl
 models/*.pkl
+models/rf_classifier.pkl
+*.backup
